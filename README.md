@@ -6,7 +6,7 @@ Clone the repository
 git clone https://github.com/varreltantio/faraid-pro.git
 ```
 
-Sebelum melanjutkan, pastikan Anda telah menginstal MySQL di komputer Anda. Buat database baru dengan nama `Faraid Pro`
+Sebelum melanjutkan, pastikan Anda telah menginstal MySQL di komputer Anda. Buat database baru dengan nama `faraidpro`
 
 Kemudian, pindah ke folder repositori
 
