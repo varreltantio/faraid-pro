@@ -53,3 +53,9 @@ npm start
 ```
 
 Sekarang Anda dapat mengakses frontend di http://localhost:3000
+
+## Akun Pakar
+
+Email: pakar@gmail.com
+
+Password: pakar123
