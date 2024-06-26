@@ -8,7 +8,7 @@ const getKonsultasi = () => {
 };
 
 const getDetailKonsultasi = () => {
-  return axios.get(API_URL + "detail", { headers: authHeader() });
+  return axios.get(API_URL + "answered");
 };
 
 const tambahPertanyaan = (pertanyaan) => {
@@ -19,8 +19,8 @@ const jawabPertanyaan = (id, jawaban) => {
   return axios.put(API_URL + `jawab/${id}`, { jawaban }, { headers: authHeader() });
 };
 
-const getUnansweredCount = () => {
-  return axios.get(API_URL + "count-unanswered", { headers: authHeader() });
+const getUnansweredNotifications = () => {
+  return axios.get(API_URL + "unanswered-notifications", { headers: authHeader() });
 };
 
 const getAnsweredNotifications = () => {
@@ -32,7 +32,7 @@ const KonsultasiService = {
   getDetailKonsultasi,
   tambahPertanyaan,
   jawabPertanyaan,
-  getUnansweredCount,
+  getUnansweredNotifications,
   getAnsweredNotifications,
 };
 

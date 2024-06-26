@@ -12,11 +12,11 @@ module.exports = app => {
 
   var router = require("express").Router();
 
-  router.get("/", [tokenJwt.checkToken], konsultasi.findAllKonsultasi);
-  router.get("/detail", [tokenJwt.checkToken], konsultasi.findDetailKonsultasi);
+  router.get("/", [tokenJwt.checkToken], konsultasi.findKonsultasiUnanswered);
+  router.get("/answered", konsultasi.findKonsultasiAnswered);
   router.post("/tambah", [tokenJwt.checkToken], konsultasi.tambahPertanyaan);
   router.put("/jawab/:id", [tokenJwt.checkToken], konsultasi.jawabPertanyaan);
-  router.get("/count-unanswered", [tokenJwt.checkToken], konsultasi.getUnansweredCount);
+  router.get("/unanswered-notifications", [tokenJwt.checkToken], konsultasi.getUnansweredNotifications);
   router.get("/answered-notifications", [tokenJwt.checkToken], konsultasi.getAnsweredNotifications);
 
   app.use('/api/konsultasi', router);

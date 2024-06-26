@@ -6,14 +6,14 @@ import Step3 from '../layouts/Step3';
 import Result from '../layouts/Result';
 
 const HitungWaris = () => {
-  const [harta, setHarta] = useState('');
-  const [hak, setHak] = useState([
+  const initialHak = [
     { label: 'Hutang yang berkaitan dengan harta:', value: '' },
     { label: 'Hutang yang tidak berkaitan dengan harta:', value: '' },
     { label: 'Biaya penyelenggaraan jenazah:', value: '' },
     { label: 'Wasiat (maksimum 1/3 tarikah):', value: '' },
-  ]);
-  const [ahliWaris, setAhliWaris] = useState([
+  ];
+
+  const initialAhliWaris = [
     { label: 'Suami', id: 'suami', value: '' },
     { label: 'Istri', id: 'istri', value: '' },
     { label: 'Bapak', id: 'bapak', value: '' },
@@ -29,7 +29,11 @@ const HitungWaris = () => {
     { label: 'Cucu Perempuan', id: 'cucuPr', value: '' },
     { label: 'Paman Kandung Laki-Laki', id: 'pamanK', value: '' },
     { label: 'Sepupu Kandung', id: 'putraPK', value: '' },
-  ]);
+  ];
+
+  const [harta, setHarta] = useState('');
+  const [hak, setHak] = useState(initialHak);
+  const [ahliWaris, setAhliWaris] = useState(initialAhliWaris);
   const [currentStep, setCurrentStep] = useState(1);
 
   const handleHartaChange = (e) => setHarta(e.target.value);
@@ -59,8 +63,15 @@ const HitungWaris = () => {
     setCurrentStep(3);
   };
 
+  const handleHitungUlang = () => {
+    setHarta('');
+    setHak(initialHak);
+    setAhliWaris(initialAhliWaris);
+    setCurrentStep(1);
+  };
+
   return (
-    <div>
+    <div className='container'>
       <div style={{ display: currentStep === 1 ? 'block' : 'none' }}>
         <Step1 harta={harta} handleChange={handleHartaChange} />
         <Step2 hak={hak} handleChange={handleHakChange} />
@@ -81,6 +92,9 @@ const HitungWaris = () => {
         )}
         {currentStep === 2 && (
           <button onClick={handleHitung} className='btn btn-success rounded-pill px-5'>Hitung</button>
+        )}
+        {currentStep === 3 && (
+          <button onClick={handleHitungUlang} className='btn btn-success rounded-pill px-5'>Hitung Ulang</button>
         )}
       </div>
     </div>

@@ -14,7 +14,15 @@ module.exports = (sequelize, Sequelize) => {
     },
     Status: {
       type: Sequelize.ENUM('Terjawab', 'Belum Terjawab')
-    }
+    },
+    TanggalPertanyaan: {
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    },
+    TanggalJawaban: {
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    },
   }, {
     tableName: 'Konsultasi',
     timestamps: false

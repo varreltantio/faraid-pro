@@ -8,6 +8,8 @@ import AuthService from "../services/auth.service";
 const Register = () => {
   let navigate = useNavigate();
 
+  const [username, setUsername] = useState('');
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -17,7 +19,7 @@ const Register = () => {
     e.preventDefault();
 
     // Validation checks
-    if (!email || !password || !confirmPassword) {
+    if (!username || !fullName || !email || !password || !confirmPassword) {
       setError('Semua kolom harus diisi.');
       return;
     }
@@ -32,9 +34,11 @@ const Register = () => {
       return;
     }
 
-    AuthService.register(email, password).then(
+    AuthService.register(username, fullName, email, password).then(
       (response) => {
         setError('');
+        setUsername('');
+        setFullName('');
         setEmail('');
         setPassword('');
         setConfirmPassword('');
@@ -63,6 +67,26 @@ const Register = () => {
               <Card.Title className="mb-4" style={{ textAlign: "left" }}>Informasi Akun</Card.Title>
               {error && <Alert variant="danger">{error}</Alert>}
               <Form className="w-100" onSubmit={handleSubmit}>
+                <Form.Group className="mb-3" controlId="formBasicUsername">
+                  <Form.Control
+                    type="text"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBasicFullName">
+                  <Form.Control
+                    type="text"
+                    placeholder="Nama Lengkap"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    required
+                  />
+                </Form.Group>
+
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Control
                     type="email"

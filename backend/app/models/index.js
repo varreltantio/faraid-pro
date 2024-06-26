@@ -24,5 +24,6 @@ db.konsultasi = require("./konsultasi.model.js")(sequelize, Sequelize);
 
 db.user.hasMany(db.konsultasi, { as: "konsultasi" });
 db.konsultasi.belongsTo(db.user, { foreignKey: "userId", as: "user" });
+db.konsultasi.belongsTo(db.user, { foreignKey: "pakarId", as: "pakar" });
 
 module.exports = db;

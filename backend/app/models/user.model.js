@@ -7,6 +7,24 @@ module.exports = (sequelize, Sequelize) => {
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true
     },
+    Username: {
+      type: Sequelize.STRING,
+      validate: {
+        len: {
+          args: [1],
+          msg: 'Username must have a minimum length of 1 character.',
+        },
+      }
+    },
+    FullName: {
+      type: Sequelize.STRING,
+      validate: {
+        len: {
+          args: [1],
+          msg: 'Full name must have a minimum length of 1 character.',
+        },
+      }
+    },
     Email: {
       type: Sequelize.STRING,
       validate: {
@@ -24,6 +42,9 @@ module.exports = (sequelize, Sequelize) => {
           msg: 'Password must have a minimum length of 6 character.',
         },
       },
+    },
+    Photo: {
+      type: Sequelize.STRING
     },
     Role: {
       type: Sequelize.ENUM('pakar', 'user')
