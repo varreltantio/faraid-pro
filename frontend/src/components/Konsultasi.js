@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Form, Button, ListGroup } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencilAlt, faCommentDots } from '@fortawesome/free-solid-svg-icons';
@@ -9,6 +9,7 @@ import KonsultasiService from '../services/konsultasi.service';
 
 const Konsultasi = () => {
   let navigate = useNavigate();
+  let location = useLocation();
 
   const [pertanyaan, setPertanyaan] = useState('');
   const [error, setError] = useState('');
@@ -17,7 +18,14 @@ const Konsultasi = () => {
 
   useEffect(() => {
     fetchDataPertanyaan();
-  }, []);
+    if (location.state && location.state.openId) {
+      const openId = location.state.openId;
+      const index = daftarPertanyaan.findIndex(item => item.id === openId);
+      if (index !== -1) {
+        setExpandedIndex(index);
+      }
+    }
+  }, [location.state, daftarPertanyaan]);
 
   const fetchDataPertanyaan = async () => {
     try {
@@ -54,7 +62,7 @@ const Konsultasi = () => {
     <div className="container">
       <div className="row mt-5">
         <div className="col-md">
-          <h5>Tanya Pakar</h5>
+          <h6 className='mb-3 fw-bold'>Tanya Pakar</h6>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="exampleForm.ControlTextarea1">
               <Form.Control
@@ -80,7 +88,7 @@ const Konsultasi = () => {
                 <h5>Pertanyaan:</h5>
                 <ListGroup>
                   {daftarPertanyaan.map((item, index) => (
-                    <ListGroup.Item key={index}>
+                    <ListGroup.Item key={index} id={item.id}>
                       <div style={{ display: 'flex', alignItems: 'center' }}>
                         <img
                           src={item.user.Photo}
@@ -88,13 +96,13 @@ const Konsultasi = () => {
                           style={{ borderRadius: '50%', width: '40px', height: '40px', marginRight: '10px' }}
                         />
                         <div>
-                          <strong>{item.user.FullName}</strong>
+                          <strong className='font-dm-sans'>{item.user.FullName}</strong>
                           <br />
-                          <span>{moment(item.tanggalPertanyaan).format('DD-MM-YYYY HH:mm')}</span>
+                          <span className='font-dm-sans'>{moment(item.tanggalPertanyaan).format('DD-MM-YYYY HH:mm')}</span>
                           <br />
                           <span className="text-secondary">{item.pertanyaan}</span>
                           <br />
-                          <span onClick={() => setExpandedIndex(index)}>
+                          <span onClick={() => setExpandedIndex(index)} className='font-dm-sans'>
                             {expandedIndex === index ? (
                               <></>
                             ) : (
@@ -113,9 +121,9 @@ const Konsultasi = () => {
                             style={{ borderRadius: '50%', width: '40px', height: '40px', marginRight: '10px' }}
                           />
                           <div>
-                            <strong>{item.pakar.FullName}</strong>
+                            <strong className='font-dm-sans'>{item.pakar.FullName}</strong>
                             <br />
-                            <span>{moment(item.tanggalJawaban).format('DD-MM-YYYY HH:mm')}</span>
+                            <span className='font-dm-sans'>{moment(item.tanggalJawaban).format('DD-MM-YYYY HH:mm')}</span>
                             <br />
                             <span className="text-secondary">{item.jawaban}</span>
                           </div>

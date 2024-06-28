@@ -18,6 +18,8 @@ module.exports = app => {
   router.put("/jawab/:id", [tokenJwt.checkToken], konsultasi.jawabPertanyaan);
   router.get("/unanswered-notifications", [tokenJwt.checkToken], konsultasi.getUnansweredNotifications);
   router.get("/answered-notifications", [tokenJwt.checkToken], konsultasi.getAnsweredNotifications);
+  router.put("/update-notifications-user/:id", [tokenJwt.checkToken], konsultasi.updateNotificationUser);
+  router.put("/update-notifications-pakar/:id", [tokenJwt.checkToken], konsultasi.updateNotificationPakar);
 
   app.use('/api/konsultasi', router);
 };

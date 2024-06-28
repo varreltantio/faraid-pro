@@ -82,6 +82,8 @@ exports.tambahPertanyaan = async (req, res) => {
     const konsultasi = {
       Pertanyaan: req.body.pertanyaan,
       Status: "Belum Terjawab",
+      NotifikasiUser: 0,
+      NotifikasiPakar: 0,
       userId: req.userId
     };
 
@@ -151,9 +153,9 @@ exports.getUnansweredNotifications = async (req, res) => {
 
     const notifications = data.map(konsul => ({
       id: konsul.Id,
-      pertanyaan: konsul.Pertanyaan,
       tanggalPertanyaan: konsul.TanggalPertanyaan,
-      user: konsul.user,
+      notifikasiPakar: konsul.NotifikasiPakar,
+      message: `Pertanyaan dari "${konsul.user.FullName}" belum terjawab.`
     }));
 
     res.send({ notifications });
@@ -177,9 +179,8 @@ exports.getAnsweredNotifications = async (req, res) => {
 
     const notifications = data.map(konsul => ({
       id: konsul.Id,
-      pertanyaan: konsul.Pertanyaan,
-      jawaban: konsul.Jawaban,
       tanggalJawaban: konsul.TanggalJawaban,
+      notifikasiUser: konsul.NotifikasiUser,
       message: `Pertanyaan Anda "${konsul.Pertanyaan}" telah dijawab.`
     }));
 
@@ -188,6 +189,64 @@ exports.getAnsweredNotifications = async (req, res) => {
     res.status(500).send({
       status: "Error",
       message: "Error retrieving answered notifications",
+    });
+  }
+};
+
+exports.updateNotificationUser = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const konsultasi = await Konsultasi.findByPk(id);
+
+    if (!konsultasi) {
+      return res.status(404).send({
+        status: "Error",
+        message: `Konsultasi dengan ID ${id} tidak ditemukan.`
+      });
+    }
+
+    konsultasi.NotifikasiUser = 1;
+    await konsultasi.save();
+
+    res.send({
+      status: "Success",
+      message: `Notifikasi konsultasi ${id} berhasil diperbarui.`,
+      data: konsultasi
+    });
+  } catch (err) {
+    res.status(500).send({
+      status: "Error",
+      message: `Error saat menjawab memperbarui notifikasi dengan ID ${id}.`
+    });
+  }
+};
+
+exports.updateNotificationPakar = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const konsultasi = await Konsultasi.findByPk(id);
+
+    if (!konsultasi) {
+      return res.status(404).send({
+        status: "Error",
+        message: `Konsultasi dengan ID ${id} tidak ditemukan.`
+      });
+    }
+
+    konsultasi.NotifikasiPakar = 1;
+    await konsultasi.save();
+
+    res.send({
+      status: "Success",
+      message: `Notifikasi konsultasi ${id} berhasil diperbarui.`,
+      data: konsultasi
+    });
+  } catch (err) {
+    res.status(500).send({
+      status: "Error",
+      message: `Error saat menjawab memperbarui notifikasi dengan ID ${id}.`
     });
   }
 };

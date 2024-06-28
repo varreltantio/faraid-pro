@@ -27,6 +27,14 @@ const getAnsweredNotifications = () => {
   return axios.get(API_URL + "answered-notifications", { headers: authHeader() });
 };
 
+const updateNotificationsPakar = (id) => {
+  return axios.put(API_URL + `update-notifications-pakar/${id}`, {}, { headers: authHeader() });
+};
+
+const updateNotificationsUser = (id) => {
+  return axios.put(API_URL + `update-notifications-user/${id}`, {}, { headers: authHeader() });
+};
+
 const KonsultasiService = {
   getKonsultasi,
   getDetailKonsultasi,
@@ -34,6 +42,8 @@ const KonsultasiService = {
   jawabPertanyaan,
   getUnansweredNotifications,
   getAnsweredNotifications,
+  updateNotificationsPakar,
+  updateNotificationsUser
 };
 
 export default KonsultasiService;

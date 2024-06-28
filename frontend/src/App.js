@@ -83,26 +83,6 @@ const App = () => {
       }
     );
 
-    const fetchUnansweredNotifications = async () => {
-      try {
-        const response = await KonsultasiService.getUnansweredNotifications();
-        setUnansweredNotifications(response.data.notifications);
-        setShowNotificationDot(response.data.notifications.length > 0);
-      } catch (err) {
-        console.error('Error fetching unanswered notifications:', err);
-      }
-    };
-
-    const fetchAnsweredNotifications = async () => {
-      try {
-        const response = await KonsultasiService.getAnsweredNotifications();
-        setAnsweredNotifications(response.data.notifications);
-        setShowNotificationDot(response.data.notifications.length > 0);
-      } catch (err) {
-        console.error('Error fetching answered notifications:', err);
-      }
-    };
-
     if (currentUser && role === 'pakar') {
       fetchUnansweredNotifications();
     }
@@ -120,12 +100,64 @@ const App = () => {
     };
   }, [currentUser, role]);
 
+  const fetchUnansweredNotifications = async () => {
+    try {
+      const response = await KonsultasiService.getUnansweredNotifications();
+      const notifications = response.data.notifications;
+
+      const hasUnansweredPakarNotification = notifications.some(notif => notif.notifikasiPakar == 0);
+
+      setUnansweredNotifications(notifications);
+      setShowNotificationDot(hasUnansweredPakarNotification);
+    } catch (err) {
+      console.error('Error fetching unanswered notifications:', err);
+    }
+  };
+
+  const fetchAnsweredNotifications = async () => {
+    try {
+      const response = await KonsultasiService.getAnsweredNotifications();
+      const notifications = response.data.notifications;
+
+      const hasAnsweredPakarNotification = notifications.some(notif => notif.notifikasiUser == 0);
+
+      setAnsweredNotifications(notifications);
+      setShowNotificationDot(hasAnsweredPakarNotification);
+    } catch (err) {
+      console.error('Error fetching answered notifications:', err);
+    }
+  };
+
   const logOut = () => {
     AuthService.logout();
     setCurrentUser(undefined);
     setRole(undefined);
 
     navigate("/login");
+  };
+
+  const updateNotification = () => {
+    if (currentUser && role === 'pakar') {
+      unansweredNotifications.map(async (notif, index) => {
+        await KonsultasiService.updateNotificationsPakar(notif.id);
+      });
+
+      fetchUnansweredNotifications();
+    } else {
+      answeredNotifications.map(async (notif, index) => {
+        await KonsultasiService.updateNotificationsUser(notif.id);
+      });
+
+      fetchAnsweredNotifications();
+    }
+  };
+
+  const handleNotifUser = (notif) => {
+    navigate(`/konsultasi#${notif.id}`, { state: { openId: notif.id } });
+  };
+
+  const handleNotifPakar = (notif) => {
+    navigate(`/pertanyaanmasuk#${notif.id}`, { state: { openId: notif.id } });
   };
 
   return (
@@ -143,22 +175,22 @@ const App = () => {
               {role !== "pakar" && (
                 <>
                   <li className="nav-item">
-                    <Link className="nav-link text-custom-green fw-bold ms-2 mt-1" to="/">
+                    <Link className="nav-link text-custom-green fw-bold ms-2 font-dm-sans" to="/">
                       Beranda
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link text-custom-green fw-bold ms-2 mt-1" to="/hukumwaris">
+                    <Link className="nav-link text-custom-green fw-bold ms-2 font-dm-sans" to="/hukumwaris">
                       Hukum Waris
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link text-custom-green fw-bold ms-2 mt-1" to="/hitungwaris">
+                    <Link className="nav-link text-custom-green fw-bold ms-2 font-dm-sans" to="/hitungwaris">
                       Hitung Waris
                     </Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link text-custom-green fw-bold ms-2 mt-1" to="/konsultasi">
+                    <Link className="nav-link text-custom-green fw-bold ms-2 font-dm-sans" to="/konsultasi">
                       Konsultasi
                     </Link>
                   </li>
@@ -167,51 +199,57 @@ const App = () => {
 
               {currentUser && role === "pakar" && (
                 <li className="nav-item">
-                  <Link className="nav-link text-custom-green fw-bold ms-2 mt-1" to="/pertanyaanmasuk">
+                  <Link className="nav-link text-custom-green fw-bold ms-2 font-dm-sans" to="/pertanyaanmasuk">
                     Pertanyaan Masuk
                   </Link>
                 </li>
               )}
               {currentUser ? (
                 <>
-                  <Dropdown align="end" className="ms-2 me-2">
-                    <Dropdown.Toggle variant="" id="dropdown-basic" style={{ border: 0 }}>
-                      <img src={notification} alt="notification" style={{ width: '40px', height: '40px' }} />
+                  <Dropdown align="end" className="ms-2">
+                    <Dropdown.Toggle variant="" id="dropdown-basic" style={{ border: 0 }} onMouseDown={updateNotification}>
+                      <img src={notification} alt="notification" style={{ width: '28px', height: '30px' }} />
                       {showNotificationDot && <span className="notification-dot"></span>}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                      {role === "pakar" && unansweredNotifications.map((notif, index) => (
-                        <Dropdown.Item key={index} style={{ display: 'flex', alignItems: 'center' }}>
-                          <img src={logo2} alt="notification" style={{ width: '40px', height: '40px' }} />
-                          <div style={{ marginLeft: '10px' }}>
-                            <span>{moment(notif.tanggalPertanyaan).format('DD-MM-YYYY HH:mm')}</span>
-                            <br />
-                            <span>Pertanyaan dari {notif.user.FullName} belum terjawab</span>
-                          </div>
-                        </Dropdown.Item>
-                      ))}
-                      {role === "pakar" && unansweredNotifications.length === 0 && (
-                        <Dropdown.Item>Tidak ada notifikasi baru.</Dropdown.Item>
-                      )}
+                      <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
+                        {role === "pakar" && unansweredNotifications.map((notif, index) => (
+                          <Dropdown.Item key={index}>
+                            <div onClick={() => handleNotifPakar(notif)} style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+                              <img src={logo2} alt="notification" style={{ width: '40px', height: '40px' }} />
+                              <div style={{ marginLeft: '10px' }}>
+                                <span>{moment(notif.tanggalPertanyaan).format('DD-MM-YYYY HH:mm')}</span>
+                                <br />
+                                <span>{notif.message}</span>
+                              </div>
+                            </div>
+                          </Dropdown.Item>
+                        ))}
+                        {role === "pakar" && unansweredNotifications.length === 0 && (
+                          <Dropdown.Item>Tidak ada notifikasi baru.</Dropdown.Item>
+                        )}
 
-                      {role !== "pakar" && answeredNotifications.map((notif, index) => (
-                        <Dropdown.Item key={index} style={{ display: 'flex', alignItems: 'center' }}>
-                          <img src={logo2} alt="notification" style={{ width: '40px', height: '40px' }} />
-                          <div style={{ marginLeft: '10px' }}>
-                            <span>{moment(notif.tanggalJawaban).format('DD-MM-YYYY HH:mm')}</span>
-                            <br />
-                            <span>{notif.message}</span>
-                          </div>
-                        </Dropdown.Item>
-                      ))}
-                      {role !== "pakar" && answeredNotifications.length === 0 && (
-                        <Dropdown.Item>Tidak ada notifikasi baru.</Dropdown.Item>
-                      )}
+                        {role !== "pakar" && answeredNotifications.map((notif, index) => (
+                          <Dropdown.Item key={index}>
+                            <div onClick={() => handleNotifUser(notif)} style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+                              <img src={logo2} alt="notification" style={{ width: '40px', height: '40px' }} />
+                              <div style={{ marginLeft: '10px' }}>
+                                <span>{moment(notif.tanggalJawaban).format('DD-MM-YYYY HH:mm')}</span>
+                                <br />
+                                <span>{notif.message}</span>
+                              </div>
+                            </div>
+                          </Dropdown.Item>
+                        ))}
+                        {role !== "pakar" && answeredNotifications.length === 0 && (
+                          <Dropdown.Item>Tidak ada notifikasi baru.</Dropdown.Item>
+                        )}
+                      </div>
                     </Dropdown.Menu>
                   </Dropdown>
-                  <Dropdown align="end">
+                  <Dropdown align="end" className="ms-2">
                     <Dropdown.Toggle variant="" id="dropdown-basic" style={{ border: 0 }}>
-                      <img src={currentUser.photo} alt="profile" style={{ borderRadius: '50%', width: '40px', height: '40px' }} />
+                      <img src={currentUser.photo} alt="profile" style={{ borderRadius: '50%', width: '30px', height: '30px' }} />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       <Dropdown.Item style={{ display: 'flex', alignItems: 'center' }}>
@@ -251,12 +289,12 @@ const App = () => {
 
       <Routes>
         <Route element={<HomeRoute user={currentUser} />}>
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Route>
 
         <Route element={<PakarRoute user={currentUser} role={role} />}>
-          <Route path="pertanyaanmasuk" element={<PertanyaanMasuk />} />
+          <Route path="/pertanyaanmasuk" element={<PertanyaanMasuk />} />
         </Route>
 
         <Route element={<ProtectedRoute user={currentUser} />}>

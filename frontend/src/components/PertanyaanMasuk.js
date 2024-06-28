@@ -54,7 +54,7 @@ const PertanyaanMasuk = () => {
           {error && <p className="text-danger">{error}</p>}
           <ListGroup>
             {daftarPertanyaan.map((item) => (
-              <ListGroup.Item key={item.id}>
+              <ListGroup.Item key={item.id} id={item.id}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <img
                     src={item.user.Photo}
@@ -62,9 +62,9 @@ const PertanyaanMasuk = () => {
                     style={{ borderRadius: '50%', width: '40px', height: '40px', marginRight: '10px' }}
                   />
                   <div>
-                    <strong>{item.user.FullName}</strong>
+                    <strong className='font-dm-sans'>{item.user.FullName}</strong>
                     <br />
-                    <span>{moment(item.tanggalPertanyaan).format('DD-MM-YYYY HH:mm')}</span>
+                    <span className='font-dm-sans'>{moment(item.tanggalPertanyaan).format('DD-MM-YYYY HH:mm')}</span>
                     <br />
                     <span>{item.pertanyaan}</span>
                   </div>
