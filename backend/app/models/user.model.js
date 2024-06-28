@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize, Sequelize) => {
+  // Mendefinisikan model User dengan Sequelize
   const User = sequelize.define("user", {
     Id: {
       type: DataTypes.UUID,
@@ -12,7 +13,7 @@ module.exports = (sequelize, Sequelize) => {
       validate: {
         len: {
           args: [1],
-          msg: 'Username must have a minimum length of 1 character.',
+          msg: 'Username harus memiliki panjang minimal 1 karakter.',
         },
       }
     },
@@ -21,7 +22,7 @@ module.exports = (sequelize, Sequelize) => {
       validate: {
         len: {
           args: [1],
-          msg: 'Full name must have a minimum length of 1 character.',
+          msg: 'Nama lengkap harus memiliki panjang minimal 1 karakter.',
         },
       }
     },
@@ -30,7 +31,7 @@ module.exports = (sequelize, Sequelize) => {
       validate: {
         len: {
           args: [1],
-          msg: 'Email must have a minimum length of 1 character.',
+          msg: 'Email harus memiliki panjang minimal 1 karakter.',
         },
       }
     },
@@ -39,7 +40,7 @@ module.exports = (sequelize, Sequelize) => {
       validate: {
         len: {
           args: [6],
-          msg: 'Password must have a minimum length of 6 character.',
+          msg: 'Password harus memiliki panjang minimal 6 karakter.',
         },
       },
     },
@@ -47,11 +48,11 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING
     },
     Role: {
-      type: Sequelize.ENUM('pakar', 'user')
+      type: Sequelize.ENUM('pakar', 'user')  // Role hanya boleh 'pakar' atau 'user'
     },
   }, {
-    tableName: 'User',
-    timestamps: false
+    tableName: 'User',    // Nama tabel yang digunakan di database
+    timestamps: false     // Tidak menggunakan kolom createdAt dan updatedAt
   });
 
   return User;

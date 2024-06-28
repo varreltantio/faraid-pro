@@ -6,6 +6,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   dialect: dbConfig.dialect,
   operatorsAliases: false,
 
+  // Konfigurasi pool koneksi database
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
@@ -16,14 +17,16 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 
 const db = {};
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+db.Sequelize = Sequelize; // Menyimpan instance Sequelize
+db.sequelize = sequelize; // Menyimpan instance koneksi Sequelize
 
-db.user = require("./user.model.js")(sequelize, Sequelize);
-db.konsultasi = require("./konsultasi.model.js")(sequelize, Sequelize);
+// Mengimpor model-model yang diperlukan
+db.user = require("./user.model.js")(sequelize, Sequelize); // Mengimpor model User
+db.konsultasi = require("./konsultasi.model.js")(sequelize, Sequelize); // Mengimpor model Konsultasi
 
-db.user.hasMany(db.konsultasi, { as: "konsultasi" });
-db.konsultasi.belongsTo(db.user, { foreignKey: "userId", as: "user" });
-db.konsultasi.belongsTo(db.user, { foreignKey: "pakarId", as: "pakar" });
+// Definisi relasi antara model User dan Konsultasi
+db.user.hasMany(db.konsultasi, { as: "konsultasi" }); // Satu User dapat memiliki banyak Konsultasi
+db.konsultasi.belongsTo(db.user, { foreignKey: "userId", as: "user" }); // Konsultasi dimiliki oleh User (sebagai pengguna yang bertanya)
+db.konsultasi.belongsTo(db.user, { foreignKey: "pakarId", as: "pakar" }); // Konsultasi juga dimiliki oleh User (sebagai pakar yang menjawab)
 
-module.exports = db;
+module.exports = db; // Mengekspor objek db yang berisi instance Sequelize dan model-model yang sudah didefinisikan

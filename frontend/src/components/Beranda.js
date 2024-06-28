@@ -11,6 +11,7 @@ import line from '../images/line.png';
 const Beranda = ({ role }) => {
   return (
     <div className="mt-5">
+      {/* Jika role adalah pakar maka tampilkan code berikut */}
       {role === 'pakar' && (
         <>
           <section id="welcome">
@@ -51,6 +52,7 @@ const Beranda = ({ role }) => {
         </>
       )}
 
+      {/* Jika role bukan pakar maka tampilkan code berikut */}
       {role !== 'pakar' && (
         <>
           <section id="welcome">

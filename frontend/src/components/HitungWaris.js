@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { fnHitung } from '../main';
-import Step1 from '../layouts/Step1';
-import Step2 from '../layouts/Step2';
-import Step3 from '../layouts/Step3';
-import Result from '../layouts/Result';
+import { fnHitung } from '../main'; // Import fungsi fnHitung dari modul main
+import Step1 from '../layouts/Step1'; // Import komponen Step1 dari modul layouts
+import Step2 from '../layouts/Step2'; // Import komponen Step2 dari modul layouts
+import Step3 from '../layouts/Step3'; // Import komponen Step3 dari modul layouts
+import Result from '../layouts/Result'; // Import komponen Result dari modul layouts
 
 const HitungWaris = () => {
+  // State untuk menyimpan nilai awal dari harta, hak, dan ahli waris
   const initialHak = [
     { label: 'Hutang yang berkaitan dengan harta:', value: '' },
     { label: 'Hutang yang tidak berkaitan dengan harta:', value: '' },
@@ -31,58 +32,68 @@ const HitungWaris = () => {
     { label: 'Sepupu Kandung', id: 'putraPK', value: '' },
   ];
 
-  const [harta, setHarta] = useState('');
-  const [hak, setHak] = useState(initialHak);
-  const [ahliWaris, setAhliWaris] = useState(initialAhliWaris);
-  const [currentStep, setCurrentStep] = useState(1);
+  // State menggunakan useState untuk menyimpan nilai saat ini dari harta, hak, ahli waris, dan step saat ini
+  const [harta, setHarta] = useState(''); // State untuk menyimpan nilai harta
+  const [hak, setHak] = useState(initialHak); // State untuk menyimpan nilai hak
+  const [ahliWaris, setAhliWaris] = useState(initialAhliWaris); // State untuk menyimpan nilai ahli waris
+  const [currentStep, setCurrentStep] = useState(1); // State untuk menyimpan step saat ini
 
+  // Handler untuk perubahan nilai harta
   const handleHartaChange = (e) => setHarta(e.target.value);
 
+  // Handler untuk perubahan nilai hak
   const handleHakChange = (e, index) => {
     const newHak = [...hak];
     newHak[index].value = e.target.value;
     setHak(newHak);
   };
 
+  // Handler untuk perubahan nilai ahli waris
   const handleAhliWarisChange = (e, index) => {
     const newAhliWaris = [...ahliWaris];
     newAhliWaris[index].value = e.target.value;
     setAhliWaris(newAhliWaris);
   };
 
+  // Handler untuk lanjut ke step berikutnya
   const handleNextStep = () => {
     setCurrentStep((prevStep) => prevStep + 1);
   };
 
+  // Handler untuk kembali ke step sebelumnya
   const handlePrevStep = () => {
     setCurrentStep((prevStep) => prevStep - 1);
   };
 
+  // Handler untuk melakukan perhitungan warisan
   const handleHitung = () => {
-    fnHitung();
-    setCurrentStep(3);
+    fnHitung(); // Memanggil fungsi fnHitung dari modul main
+    setCurrentStep(3); // Mengatur step saat ini ke step 3 (hasil)
   };
 
+  // Handler untuk mengulang perhitungan warisan
   const handleHitungUlang = () => {
-    setHarta('');
-    setHak(initialHak);
-    setAhliWaris(initialAhliWaris);
-    setCurrentStep(1);
+    setHarta(''); // Mengatur nilai harta kembali ke nilai awal
+    setHak(initialHak); // Mengatur nilai hak kembali ke nilai awal
+    setAhliWaris(initialAhliWaris); // Mengatur nilai ahli waris kembali ke nilai awal
+    setCurrentStep(1); // Mengatur step saat ini kembali ke step 1 (input awal)
   };
 
+  // Mengembalikan tampilan komponen HitungWaris dengan beberapa step yang dapat ditampilkan berdasarkan step saat ini
   return (
     <div className='container'>
       <div style={{ display: currentStep === 1 ? 'block' : 'none' }}>
-        <Step1 harta={harta} handleChange={handleHartaChange} />
-        <Step2 hak={hak} handleChange={handleHakChange} />
+        <Step1 harta={harta} handleChange={handleHartaChange} /> {/* Menampilkan komponen Step1 jika step saat ini adalah 1 */}
+        <Step2 hak={hak} handleChange={handleHakChange} /> {/* Menampilkan komponen Step2 jika step saat ini adalah 1 */}
       </div>
       <div style={{ display: currentStep === 2 ? 'block' : 'none' }}>
-        <Step3 ahliWaris={ahliWaris} handleChange={handleAhliWarisChange} />
+        <Step3 ahliWaris={ahliWaris} handleChange={handleAhliWarisChange} /> {/* Menampilkan komponen Step3 jika step saat ini adalah 2 */}
       </div>
       <div style={{ display: currentStep === 3 ? 'block' : 'none' }}>
-        <Result />
+        <Result /> {/* Menampilkan komponen Result jika step saat ini adalah 3 */}
       </div>
 
+      {/* Tombol navigasi untuk berpindah step dan melakukan perhitungan */}
       <div className="navigation-buttons d-flex justify-content-end mt-4">
         {currentStep > 1 && currentStep < 3 && (
           <button onClick={handlePrevStep} className='btn btn-success rounded-pill px-5 me-3'>Sebelumnya</button>

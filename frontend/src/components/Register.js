@@ -6,19 +6,21 @@ import logo from '../images/logo.png';
 import AuthService from "../services/auth.service";
 
 const Register = () => {
-  let navigate = useNavigate();
+  let navigate = useNavigate(); // Menginisialisasi hook useNavigate untuk navigasi
 
+  // State untuk menyimpan nilai input dari form registrasi
   const [username, setUsername] = useState('');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState(''); // State untuk menyimpan pesan error
 
+  // Fungsi untuk menangani submit form registrasi
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validation checks
+    // Validasi input
     if (!username || !fullName || !email || !password || !confirmPassword) {
       setError('Semua kolom harus diisi.');
       return;
@@ -34,6 +36,7 @@ const Register = () => {
       return;
     }
 
+    // Memanggil fungsi register dari AuthService untuk melakukan registrasi
     AuthService.register(username, fullName, email, password).then(
       (response) => {
         setError('');
@@ -43,6 +46,7 @@ const Register = () => {
         setPassword('');
         setConfirmPassword('');
 
+        // Navigasi ke halaman login dengan menyertakan pesan sukses
         navigate("/login", { state: { successMessage: 'Registrasi berhasil! Silakan login.' } });
       },
       (error) => {
@@ -52,10 +56,12 @@ const Register = () => {
     );
   };
 
+  // Fungsi untuk memeriksa format email
   const isValidEmail = (value) => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
   };
 
+  // Menampilkan halaman Register
   return (
     <div className="row mt-5 justify-content-center">
       <div className="col-lg-6">
@@ -65,7 +71,7 @@ const Register = () => {
               <img src={logo} alt="Logo" style={{ height: "60px", textAlign: "center" }} className="mb-3" />
 
               <Card.Title className="mb-4" style={{ textAlign: "left" }}>Informasi Akun</Card.Title>
-              {error && <Alert variant="danger">{error}</Alert>}
+              {error && <Alert variant="danger">{error}</Alert>} {/* Menampilkan pesan error jika terdapat error */}
               <Form className="w-100" onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicUsername">
                   <Form.Control

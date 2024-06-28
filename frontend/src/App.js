@@ -24,6 +24,7 @@ import setting from './images/setting.png';
 import signout from './images/signout.png';
 import UpdateProfile from "./components/UpdateProfile";
 
+// Memeriksa apakah pengguna telah login
 const ProtectedRoute = ({ user, redirectPath = '/login' }) => {
   if (!user) {
     return <Navigate to={redirectPath} replace />;
@@ -32,6 +33,7 @@ const ProtectedRoute = ({ user, redirectPath = '/login' }) => {
   return <Outlet />;
 };
 
+// Mengarahkan pengguna kembali ke halaman utama jika sudah login
 const HomeRoute = ({ user, redirectPath = '/' }) => {
   if (user) {
     return <Navigate to={redirectPath} replace />;
@@ -40,6 +42,7 @@ const HomeRoute = ({ user, redirectPath = '/' }) => {
   return <Outlet />;
 };
 
+// memeriksa apakah pengguna adalah pakar dan telah login
 const PakarRoute = ({ user, role, redirectPath = '/login' }) => {
   if (!user) {
     return <Navigate to={redirectPath} replace />;
@@ -55,109 +58,121 @@ const PakarRoute = ({ user, role, redirectPath = '/login' }) => {
 const App = () => {
   let navigate = useNavigate();
 
-  const [currentUser, setCurrentUser] = useState(undefined);
-  const [role, setRole] = useState(undefined);
-  const [isNavCollapsed, setIsNavCollapsed] = useState(true);
-  const [unansweredNotifications, setUnansweredNotifications] = useState([]);
-  const [answeredNotifications, setAnsweredNotifications] = useState([]);
-  const [showNotificationDot, setShowNotificationDot] = useState(false);
+  const [currentUser, setCurrentUser] = useState(undefined); // State untuk menyimpan data pengguna saat ini
+  const [role, setRole] = useState(undefined); // State untuk menyimpan peran (role) pengguna saat ini
+  const [isNavCollapsed, setIsNavCollapsed] = useState(true); // State untuk mengatur keadaan collapse navbar
+  const [unansweredNotifications, setUnansweredNotifications] = useState([]); // State untuk menyimpan notifikasi yang belum dijawab
+  const [answeredNotifications, setAnsweredNotifications] = useState([]); // State untuk menyimpan notifikasi yang telah dijawab
+  const [showNotificationDot, setShowNotificationDot] = useState(false); // State untuk menunjukkan indikator notifikasi
 
-  const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
+  const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed); // Fungsi untuk menangani collapse navbar
 
   useEffect(() => {
+    // Efek samping untuk mengambil profil pengguna dan memeriksa peran (role) pengguna saat komponen dimuat
     UserService.getProfile().then(
       (response) => {
-        setCurrentUser(response.data);
+        setCurrentUser(response.data); // Mengatur state currentUser dengan data profil pengguna dari respons API
       },
       (error) => {
-        setCurrentUser(undefined);
+        setCurrentUser(undefined); // Jika terjadi kesalahan, mengatur currentUser menjadi undefined
       }
     );
 
     UserService.checkRole().then(
       (response) => {
-        setRole(response.data.role);
+        setRole(response.data.role); // Mengatur state role dengan peran (role) pengguna dari respons API
       },
       (error) => {
-        setRole(undefined);
+        setRole(undefined); // Jika terjadi kesalahan, mengatur role menjadi undefined
       }
     );
 
+    // Memanggil fungsi fetchUnansweredNotifications() jika currentUser dan role adalah 'pakar'
     if (currentUser && role === 'pakar') {
       fetchUnansweredNotifications();
     }
 
+    // Memanggil fungsi fetchAnsweredNotifications() jika currentUser dan role bukan 'pakar'
     if (currentUser && role !== 'pakar') {
       fetchAnsweredNotifications();
     }
 
+    // Mengatur pemantauan untuk peristiwa 'logout' dari EventBus
     EventBus.on("logout", () => {
-      logOut();
+      logOut(); // Menjalankan fungsi logOut() saat peristiwa 'logout' terjadi
     });
 
     return () => {
-      EventBus.remove("logout");
+      EventBus.remove("logout"); // Membersihkan pemantauan peristiwa 'logout' saat komponen dibongkar
     };
-  }, [currentUser, role]);
+  }, [currentUser, role]); // Bergantung pada perubahan state currentUser dan role
 
+  // Fungsi untuk mengambil notifikasi yang belum dijawab dari server
   const fetchUnansweredNotifications = async () => {
     try {
-      const response = await KonsultasiService.getUnansweredNotifications();
-      const notifications = response.data.notifications;
+      const response = await KonsultasiService.getUnansweredNotifications(); // Mengirimkan permintaan GET untuk mendapatkan notifikasi yang belum dijawab
+      const notifications = response.data.notifications; // Menyimpan data notifikasi dari respons
 
+      // Memeriksa apakah terdapat notifikasi yang belum dijawab oleh pakar
       const hasUnansweredPakarNotification = notifications.some(notif => notif.notifikasiPakar == 0);
 
-      setUnansweredNotifications(notifications);
-      setShowNotificationDot(hasUnansweredPakarNotification);
+      setUnansweredNotifications(notifications); // Mengatur state unansweredNotifications dengan data notifikasi
+      setShowNotificationDot(hasUnansweredPakarNotification); // Menampilkan indikator notifikasi jika terdapat notifikasi yang belum dijawab
     } catch (err) {
-      console.error('Error fetching unanswered notifications:', err);
+      console.error('Error fetching unanswered notifications:', err); // Menampilkan pesan kesalahan jika terjadi kesalahan dalam mengambil notifikasi yang belum dijawab
     }
   };
 
+  // Fungsi untuk mengambil notifikasi yang telah dijawab dari server
   const fetchAnsweredNotifications = async () => {
     try {
-      const response = await KonsultasiService.getAnsweredNotifications();
-      const notifications = response.data.notifications;
+      const response = await KonsultasiService.getAnsweredNotifications(); // Mengirimkan permintaan GET untuk mendapatkan notifikasi yang telah dijawab
+      const notifications = response.data.notifications; // Menyimpan data notifikasi dari respons
 
+      // Memeriksa apakah terdapat notifikasi yang telah dijawab oleh pengguna
       const hasAnsweredPakarNotification = notifications.some(notif => notif.notifikasiUser == 0);
 
-      setAnsweredNotifications(notifications);
-      setShowNotificationDot(hasAnsweredPakarNotification);
+      setAnsweredNotifications(notifications); // Mengatur state answeredNotifications dengan data notifikasi
+      setShowNotificationDot(hasAnsweredPakarNotification); // Menampilkan indikator notifikasi jika terdapat notifikasi yang telah dijawab
     } catch (err) {
-      console.error('Error fetching answered notifications:', err);
+      console.error('Error fetching answered notifications:', err); // Menampilkan pesan kesalahan jika terjadi kesalahan dalam mengambil notifikasi yang telah dijawab
     }
   };
 
+  // Fungsi untuk keluar dari aplikasi
   const logOut = () => {
-    AuthService.logout();
-    setCurrentUser(undefined);
-    setRole(undefined);
+    AuthService.logout(); // Memanggil fungsi logout dari AuthService untuk menghapus token dari local storage
+    setCurrentUser(undefined); // Mengatur currentUser menjadi undefined
+    setRole(undefined); // Mengatur role menjadi undefined
 
-    navigate("/login");
+    navigate("/login"); // Mengarahkan pengguna kembali ke halaman login setelah logout
   };
 
+  // Fungsi untuk mengupdate status notifikasi
   const updateNotification = () => {
     if (currentUser && role === 'pakar') {
       unansweredNotifications.map(async (notif, index) => {
-        await KonsultasiService.updateNotificationsPakar(notif.id);
+        await KonsultasiService.updateNotificationsPakar(notif.id); // Mengirim permintaan PUT untuk mengupdate status notifikasi pakar
       });
 
-      fetchUnansweredNotifications();
+      fetchUnansweredNotifications(); // Memanggil kembali fungsi fetchUnansweredNotifications() setelah update
     } else {
       answeredNotifications.map(async (notif, index) => {
-        await KonsultasiService.updateNotificationsUser(notif.id);
+        await KonsultasiService.updateNotificationsUser(notif.id); // Mengirim permintaan PUT untuk mengupdate status notifikasi pengguna
       });
 
-      fetchAnsweredNotifications();
+      fetchAnsweredNotifications(); // Memanggil kembali fungsi fetchAnsweredNotifications() setelah update
     }
   };
 
+  // Fungsi untuk menangani klik notifikasi dari pengguna
   const handleNotifUser = (notif) => {
-    navigate(`/konsultasi#${notif.id}`, { state: { openId: notif.id } });
+    navigate(`/konsultasi#${notif.id}`, { state: { openId: notif.id } }); // Mengarahkan pengguna ke halaman konsultasi dengan ID notifikasi yang dipilih
   };
 
+  // Fungsi untuk menangani klik notifikasi dari pakar
   const handleNotifPakar = (notif) => {
-    navigate(`/pertanyaanmasuk#${notif.id}`, { state: { openId: notif.id } });
+    navigate(`/pertanyaanmasuk#${notif.id}`, { state: { openId: notif.id } }); // Mengarahkan pengguna ke halaman pertanyaan masuk dengan ID notifikasi yang dipilih
   };
 
   return (

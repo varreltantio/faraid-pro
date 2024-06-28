@@ -1,17 +1,23 @@
+// Variabel untuk menyimpan jumlah harta dan sisa, serta variabel untuk status kunci (LOCK)
 var iJthSuami = 0, iJthIstri = 0, iJthBapak = 0, iJthIbu = 0, iJthAnakLaki = 0, iJthAnakPerempuan = 0, iJthCucuLaki = 0, iJthCucuPerempuan = 0, iJthKakek = 0, iJthNenekBapak = 0, iJthNenekIbu = 0, iJthNenekKakek = 0, iJthSaudaraKandung = 0, iJthSaudariKandung = 0, iJthSaudaraSebapak = 0, iJthSaudaraSeibu = 0, iJthSaudariSebapak = 0, iJthSaudariSeibu = 0, iJthPutraSaudaraKandung = 0, iJthPutraSaudaraSebapak = 0, iJthPamanKandung = 0, iJthPamanSebapak = 0, iJthPutraPamanKandung = 0, iJthPutraPamanSebapak = 0, iJthPriaMerdekakan = 0, iJthWanitaMerdekakan = 0, iHarta, iSisa;
 var LOCK = 0;
 var _AR = new Array();
 _AR[0] = "hidden";
 _AR[1] = "visible";
+
+// Fungsi untuk mengubah visibilitas elemen berdasarkan nilai _v
 function doIt(_v) {
   LOCK = _v;
   document.getElementById("result").style.visibility = _AR[_v];
 }
+
+// Fungsi lain untuk mengubah visibilitas elemen berdasarkan nilai _v
 function doThis(_v) {
   LOCK = _v;
   document.getElementById("result").style.visibility = _AR[_v];
 }
 
+// Fungsi untuk menambahkan titik sebagai pemisah ribuan pada bilangan
 function tandaPemisahTitik(b) {
   var _minus = false;
   if (b < 0)
@@ -34,6 +40,8 @@ function tandaPemisahTitik(b) {
     c = "-" + c;
   return c;
 }
+
+// Fungsi untuk menghapus pemisah titik pada bilangan
 function bersihPemisah(ini) {
   var a = ini.toString().replace(".", "");
   return a;

@@ -9,7 +9,11 @@ const HukumWaris = () => {
         <div className="col-lg-5">
           <div className="mt-5 mb-5">
             <h1 className="fw-bold mb-3 text-custom-green" style={{ zIndex: 1, position: 'relative' }}>Hukum <br />Waris Islam</h1>
+
+            {/* mengatur lebar dan margin atas pada gambar */}
             <img src={line2} alt="line" width="100%" style={{ marginTop: '-120px' }} />
+
+            {/* buat agar tulisan menjadi rata kiri kanan */}
             <p style={{ textAlign: 'justify' }}>Dalam Kamus Besar Bahasa Indonesia (KBBI) kata  waris berarti Orang yang berhak menerima harta pusaka  dari orang yang telah meninggal. 1 Di dalam bahasa Arab kata waris berasal dari kata ورث-يرث-ورثا yang artinya  adalah Waris. Contoh, ورث اباه yang artinya Mewaris harta  (ayahnya).2  Waris menurut hukum Islam adalah hukum yang  mengatur tentang perpidahan hak milik, hak milik yang dimaksud adalah  berupa harta, seorang yang telah meninggal dunia kepada  ahli warisnya. Dalam istilah lain waris disebut juga  dengan fara‟id.</p>
           </div>
         </div>
@@ -23,6 +27,8 @@ const HukumWaris = () => {
       <div className="row mt-5">
         <div className="col-md">
           <h3 className="fw-bold mb-3">Hukum Waris Islam</h3>
+
+          {/* buat agar tulisan menjadi rata kiri kanan */}
           <p style={{ textAlign: 'justify' }}>
             Dalam bahasa Arab, "waris" disebut "Faraid," yang merupakan bentuk jamak dari "al-faridhah" yang berarti sesuatu yang diwajibkan atau pembagian yang telah ditentukan sesuai dengan kadarnya masing-masing. Dalam ajaran Syariat Islam, terdapat ilmu yang disebut "ilmu faraid," yang mempelajari perhitungan dan prosedur pembagian harta warisan untuk setiap ahli waris berdasarkan ketentuan-ketentuan Islam.<br /><br />
             Menurut Pasal 49 huruf b UU RI No. 3 Tahun 2006 Tentang Peradilan Agama menjelaskan, bahwa yang dimaksud dengan waris adalah penentuan siapa-siapa yang menjadi ahli waris, penentuan mengenai harta peninggalan, penentuan bagian masing-masing ahli waris dan pelaksanaan pembagian harta peninggalan tersebut.<br /><br />
@@ -36,6 +42,8 @@ const HukumWaris = () => {
           </p>
 
           <h3 className="fw-bold mb-3 mt-5">Sebab-Sebab Mendapatkan Hak Waris</h3>
+
+          {/* buat agar tulisan menjadi rata kiri kanan */}
           <p style={{ textAlign: 'justify' }}>
             Dalam hukum Islam, sebab-sebab untuk dapat menerima warisan ada tiga, yaitu: Hubungan kekerabatan (al-qarabah), Hubungan perkawinan atau semenda (al-musaharah), Hubungan karena sebab memerdekakan budak atau hamba sahaya (al-wala'). Namun untuk sebab karena memerdekakan budak sudah tidak berlaku Iagi untuk sekarang, karena praktik perbudakan ini hanya ada pada masa Rasulullah SAW.<br /><br />
             1.	Hubungan Kekerabatan (al-qarabah).<br /><br />
@@ -47,6 +55,8 @@ const HukumWaris = () => {
           </p>
 
           <h3 className="fw-bold mb-3 mt-5">Sebab-Sebab Hilangnya Hak Kewarisan Dalam Islam</h3>
+
+          {/* buat agar tulisan menjadi rata kiri kanan */}
           <p style={{ textAlign: 'justify' }}>
             Memperoleh hak waris tidak cukup hanya karena adanya penyebab kewarisan, tetapi pada seseorang itu juga harus tidak ada penyebab yang dapat menghalanginya untuk menerima warisan. Karena itu orang yang dilihat dari aspek penyebabpenyebab kewarisan sudah memenuhi syarat untuk menerima warisan, tetapi jika ia dalam keadaan dan atau melakukan sesuatu yang menyebabkan dia tersingkir sebagai ahli waris. Dalam hukum Islam secara umum faktor penghalang hak waris terdapat beberapa sebab yaitu21:<br /><br />
             a. Ahli waris yang membunuh pewaris, tidak berhak mendapatkan warisan dari keluarga yang dibunuhnya.<br /><br />
@@ -55,6 +65,8 @@ const HukumWaris = () => {
           </p>
 
           <h3 className="fw-bold mb-3 mt-5">Rukun dan Syarat Kewarisan Dalam Islam</h3>
+
+          {/* buat agar tulisan menjadi rata kiri kanan */}
           <p style={{ textAlign: 'justify' }}>
             Jika dianalisis syarat-syarat adanya pelaksanaan hukum kewarisan Islam akan ditemukan tiga syarat yaitu yang pertama, kepastian meninggalnya orang yang memiliki harta, kedua, kepastian hidupnya ahli waris ketika pewaris meninggal dunia, ketiga, diketahui sebab-sebab status masing-masing ahli waris. Kepastian meninggalnya seseorang yang memiliki harta dan kepastian hidupnya ahli waris pada saat meninggalnya pewaris menunjukkan bahwa perpindahan hak atas harta dalam kewarisan tergantung seluruhnya pada saat yang pasti. Oleh karena itu meninggalnya pemilik harta dan hidupnya ahli waris merupakan pedoman unutuk menetapkan peristiwa pelaksanaan hukum kewarisan Islam, Penetapan pemilik harta meninggal dan ahli waris hidup sebagai syarat mutlak menentukan terjadinya kewarisan dalam hukum Islam. Secara lebih luas ada beberapa syarat yang harus dipenuhi dalam pembagian warisan. Syarat-syarat tersebut mengikuti rukun, dan sebagian berdiri sendiri. Adapun rukun pembagian warisan ada tiga yaitu:<br /><br />
             1. Pewaris (al-mawarrits) Yaitu orang yang mewariskan harta bendanya, syaratnya al-muwarrits benarbenar telah meninggal secara hakiki, secara yuridis, atau berdasarkan perkiraan .<br /><br />
@@ -62,7 +74,10 @@ const HukumWaris = () => {
             3. Harta Warisan (al-mauruts) Harta warisan menurut hukum Islam ialah segala sesuatu yang ditinggalkan oleh pewaris yang secara hukum dapat beralih kepada ahli warisnya. Dalam pengertian ini dapat dibedakan antara harta warisan dan harta peninggalan. Harta peninggalan adalah semua yang ditinggalkan oleh si mayit atau dalam arti apa-apa yang ada pada seorang saat kematiannya, sedangkan harta warisan adalah harta peninggalan yang secara hukum syariat berhak diterima oleh ahli warisnya26. Disebut sebagai harta warisan adalah harta peninggalan pewaris yang dengan syarat sudah dikeluarkan untuk biaya selama pewaris sakit, pengurusan jenazah, pembayaran hutang, serta wasiat pewaris
           </p>
 
+
           <h3 className="fw-bold mb-3 mt-5">Ahli Waris dan Bagian-Bagiannya Menurut Hukum Islam</h3>
+
+          {/* buat agar tulisan menjadi rata kiri kanan */}
           <p style={{ textAlign: 'justify' }}>
             Golongan besarnya hak yang akan diterima oleh para ahli waris, maka ahli waris di dalam hukum waris Islam dibagi ke dalam tiga golongan, yaitu:<br /><br />
             1.	Ashabul furudh, yaitu golongan ahli waris yang bagian haknya tertentu, yaitu 1/2, 1/3, 1/4, 1/6, 1/8 dan 2/3. 2.<br /><br />

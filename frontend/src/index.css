@@ -1,83 +1,83 @@
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', sans-serif; /* Mengatur font family untuk seluruh body menggunakan Inter */
 }
 
 .font-dm-sans {
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'DM Sans', sans-serif; /* Mengatur font family untuk kelas .font-dm-sans menggunakan DM Sans */
 }
 
 .container {
-  padding: 20px;
+  padding: 20px; /* Memberikan padding sebesar 20px pada kelas .container */
 }
 
 .subHeader, .bodyText {
-  margin: 10px 0;
+  margin: 10px 0; /* Memberikan margin 10px di atas dan bawah pada kelas .subHeader dan .bodyText */
 }
 
 #result, .hasil {
-  margin-top: 20px;
+  margin-top: 20px; /* Memberikan margin atas sebesar 20px pada elemen dengan id result dan kelas .hasil */
 }
 
 .text-custom-green {
-  color:rgba(87, 187, 87, 1);
+  color:rgba(87, 187, 87, 1); /* Mengatur warna teks menggunakan kode rgba untuk warna hijau kustom */
 }
 
 .bg-custom-green {
-  background-color: rgba(88, 180, 61, 1);
+  background-color: rgba(88, 180, 61, 1); /* Mengatur warna latar belakang menggunakan kode rgba untuk warna hijau kustom */
 }
 
 .btn-success {
-  background-color: rgba(88, 180, 61, 1);
-  border: 0;
+  background-color: rgba(88, 180, 61, 1); /* Mengatur warna latar belakang tombol menggunakan kode rgba untuk warna hijau kustom */
+  border: 0; /* Menghilangkan border pada tombol */
 }
 
 .navbar {
-  padding: 0 !important;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0 !important; /* Mengatur padding navbar menjadi 0 dengan prioritas tinggi */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Memberikan efek bayangan pada navbar */
 }
 
 .navbar-brand {
-  padding: 0 !important;
+  padding: 0 !important; /* Mengatur padding untuk brand navbar menjadi 0 dengan prioritas tinggi */
 }
 
 h1 {
- font-size: 64px;
+ font-size: 64px; /* Mengatur ukuran font untuk elemen h1 menjadi 64px */
 }
 
 #welcome {
-  margin-bottom: 150px;
+  margin-bottom: 150px; /* Memberikan margin bawah sebesar 150px pada elemen dengan id welcome */
 }
 
 #hukumwaris {
-  margin-bottom: 150px;
+  margin-bottom: 150px; /* Memberikan margin bawah sebesar 150px pada elemen dengan id hukumwaris */
 }
 
 #artikelhukumwaris {
-  margin-bottom: 150px;
+  margin-bottom: 150px; /* Memberikan margin bawah sebesar 150px pada elemen dengan id artikelhukumwaris */
 }
 
 #thanks {
- background-color: rgba(87, 187, 87, 1);
- color: white;
- padding-bottom: 80px;
+ background-color: rgba(87, 187, 87, 1); /* Mengatur warna latar belakang menggunakan kode rgba untuk warna hijau kustom */
+ color: white; /* Mengatur warna teks menjadi putih */
+ padding-bottom: 80px; /* Memberikan padding bawah sebesar 80px pada elemen dengan id thanks */
 }
 
 #footer {
- background-color: rgba(87, 187, 87, 1);
- color: white;
+ background-color: rgba(87, 187, 87, 1); /* Mengatur warna latar belakang menggunakan kode rgba untuk warna hijau kustom */
+ color: white; /* Mengatur warna teks menjadi putih */
 }
 
 .notification-dot {
-  position: relative;
+  position: relative; /* Mengatur posisi elemen menjadi relatif */
 }
 
 .notification-dot::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 10px;
-  height: 10px;
-  background-color: red;
-  border-radius: 50%;
+  content: ""; /* Menambahkan konten kosong setelah elemen */
+  position: absolute; /* Mengatur posisi konten menjadi absolut */
+  top: 0; /* Menempatkan konten di bagian atas */
+  right: 0; /* Menempatkan konten di bagian kanan */
+  width: 10px; /* Mengatur lebar konten */
+  height: 10px; /* Mengatur tinggi konten */
+  background-color: red; /* Mengatur warna latar belakang konten menjadi merah */
+  border-radius: 50%; /* Mengatur border radius sehingga konten menjadi bulat */
 }

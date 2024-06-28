@@ -2,16 +2,16 @@ import React from 'react';
 
 const Step1 = ({ harta, handleChange }) => (
   <>
-    <div className="subHeader">
-      <font face="Verdana" size="2">
-        <strong>Hitung Total Harta</strong>
+    <div className="subHeader"> {/* Bagian judul langkah 1 */}
+      <font face="Verdana" size="2"> {/* Pengaturan font untuk judul */}
+        <strong>Hitung Total Harta</strong> {/* Teks judul yang ditebalkan */}
       </font>
     </div>
-    <div className="bodyText">
+    <div className="bodyText"> {/* Konten utama langkah 1 */}
       <p>
-        <font face="Verdana">
-          <strong>
-            <font size="2" style={{ color: "rgba(88, 180, 61, 1)" }}>Masukkan Total Harta:</font>
+        <font face="Verdana"> {/* Pengaturan font untuk konten */}
+          <strong> {/* Teks yang ditebalkan */}
+            <font size="2" style={{ color: "rgba(88, 180, 61, 1)" }}>Masukkan Total Harta:</font> {/* Teks instruksi dengan warna khusus */}
           </strong>
           <input
             className='ms-3'
@@ -23,7 +23,7 @@ const Step1 = ({ harta, handleChange }) => (
           />
         </font>
       </p>
-      <hr />
+      <hr /> {/* Garis pemisah */}
     </div>
   </>
 );

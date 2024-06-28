@@ -3,45 +3,50 @@ import UserService from '../services/user.service';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 
 const UpdateProfile = () => {
+  // State untuk menyimpan data profil pengguna dan gambar profil
   const [username, setUsername] = useState('');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
-  const [image, setImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState();
+  const [image, setImage] = useState(null); // State untuk menyimpan file gambar yang akan diunggah
+  const [imageUrl, setImageUrl] = useState(); // State untuk menyimpan URL gambar profil
 
   useEffect(() => {
-    fetchProfile();
+    fetchProfile(); // Memanggil fungsi fetchProfile saat komponen pertama kali dirender
   }, []);
 
+  // Fungsi untuk mengambil data profil pengguna dari UserService
   const fetchProfile = async () => {
     try {
-      const response = await UserService.getProfile();
-      setUsername(response.data.username);
-      setFullName(response.data.fullName);
-      setEmail(response.data.email);
-      setImageUrl(response.data.photo);
+      const response = await UserService.getProfile(); // Memanggil endpoint getProfile dari UserService
+      setUsername(response.data.username); // Mengupdate state username dengan nilai dari response
+      setFullName(response.data.fullName); // Mengupdate state fullName dengan nilai dari response
+      setEmail(response.data.email); // Mengupdate state email dengan nilai dari response
+      setImageUrl(response.data.photo); // Mengupdate state imageUrl dengan URL foto profil dari response
     } catch (err) {
-      console.error('Error fetching profile:', err);
+      console.error('Error fetching profile:', err); // Menangani error jika terjadi kesalahan dalam mengambil data profil
     }
   };
 
+  // Fungsi untuk meng-handle perubahan pada input unggah gambar
   const handleImageChange = (e) => {
-    setImageUrl(URL.createObjectURL(e.target.files[0]));
-    setImage(e.target.files[0]);
+    setImageUrl(URL.createObjectURL(e.target.files[0])); // Mengupdate imageUrl dengan URL gambar yang akan diunggah
+    setImage(e.target.files[0]); // Mengupdate state image dengan file gambar yang akan diunggah
   };
 
+  // Fungsi untuk meng-handle submit form update profil
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await UserService.updateProfile(username, fullName, image);
-      alert('Profile updated successfully');
-      fetchProfile();
+      await UserService.updateProfile(username, fullName, image); // Memanggil fungsi updateProfile dari UserService
+      alert('Profile updated successfully'); // Menampilkan alert sukses setelah profil berhasil diperbarui
+      fetchProfile(); // Memanggil kembali fetchProfile untuk mengambil data profil terbaru setelah update
     } catch (err) {
-      console.error('Error updating profile:', err);
+      console.error('Error updating profile:', err); // Menangani error jika terjadi kesalahan saat update profil
     }
   };
 
+  // Render komponen UpdateProfile
   return (
     <div className="container">
       <div className="row mt-5">

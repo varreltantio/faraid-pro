@@ -6,40 +6,43 @@ import logo from '../images/logo.png';
 import AuthService from "../services/auth.service";
 
 const Login = () => {
-  let navigate = useNavigate();
+  let navigate = useNavigate(); // Menginisialisasi hook useNavigate untuk navigasi programmatic
 
-  const location = useLocation();
-  const successMessage = location.state ? location.state.successMessage : null;
+  const location = useLocation(); // Menginisialisasi hook useLocation untuk mendapatkan informasi lokasi saat ini
+  const successMessage = location.state ? location.state.successMessage : null; // Mendapatkan pesan sukses dari location state jika ada
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState(''); // State untuk menyimpan nilai email yang diinput
+  const [password, setPassword] = useState(''); // State untuk menyimpan nilai password yang diinput
+  const [error, setError] = useState(''); // State untuk menyimpan pesan error
 
+  // Fungsi untuk menangani pengiriman form login
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validation checks
+    // Validasi input
     if (!email || !password) {
       setError('Semua kolom harus diisi.');
       return;
     }
 
+    // Memanggil AuthService untuk melakukan login dengan email dan password yang diberikan
     AuthService.login(email, password).then(
       (response) => {
-        setError('');
-        setEmail('');
-        setPassword('');
+        setError(''); // Mengosongkan pesan error setelah berhasil login
+        setEmail(''); // Mengosongkan input email setelah berhasil login
+        setPassword(''); // Mengosongkan input password setelah berhasil login
 
-        navigate("/");
-        window.location.reload();
+        navigate("/"); // Mengarahkan pengguna ke halaman utama setelah berhasil login
+        window.location.reload(); // Memuat ulang halaman untuk memperbarui data setelah login
       },
       (error) => {
         console.log(error);
-        setError('Email atau password salah.');
+        setError('Email atau password salah.'); // Mengatur pesan error jika login gagal
       }
     );
   };
 
+  // Mengembalikan tampilan komponen Login
   return (
     <div className="row mt-5 justify-content-center">
       <div className="col-lg-6">
@@ -50,9 +53,10 @@ const Login = () => {
 
               <Card.Title className="mb-4" style={{ textAlign: "left" }}>Masuk</Card.Title>
 
-              {successMessage && <Alert variant="success">{successMessage}</Alert>}
-              {error && <Alert variant="danger">{error}</Alert>}
+              {successMessage && <Alert variant="success">{successMessage}</Alert>} {/* Menampilkan pesan sukses jika ada */}
+              {error && <Alert variant="danger">{error}</Alert>} {/* Menampilkan pesan error jika ada */}
 
+              {/* Form untuk input email dan password */}
               <Form className="w-100" onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Control type="email" placeholder="Alamat Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
@@ -64,10 +68,12 @@ const Login = () => {
 
                 <hr />
 
+                {/* Tombol untuk submit form login */}
                 <button className="btn btn-success btn-block w-100 mt-3" type="submit">
                   Login
                 </button>
 
+                {/* Tautan untuk menuju halaman registrasi */}
                 <p className="mt-3 text-muted text-center">Belum punya akun? <Link to="/register"> Daftar</Link></p>
               </Form>
             </div>

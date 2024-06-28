@@ -1,4 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
+  // Mendefinisikan model Konsultasi dengan Sequelize
   const Konsultasi = sequelize.define("konsultasi", {
     Id: {
       type: Sequelize.INTEGER,
@@ -30,8 +31,8 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.BOOLEAN
     }
   }, {
-    tableName: 'Konsultasi',
-    timestamps: false
+    tableName: 'Konsultasi',  // Nama tabel yang digunakan di database
+    timestamps: false         // Tidak menggunakan kolom createdAt dan updatedAt
   });
 
   return Konsultasi;

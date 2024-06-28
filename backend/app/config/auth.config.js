@@ -1,3 +1,3 @@
 module.exports = {
-  secret: "auth-faraid-pro"
+  secret: "auth-faraid-pro" // Kunci untuk autentikasi
 };
